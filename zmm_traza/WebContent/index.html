@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+
+        <title>Trazabilidad de materiales</title>
+
+        <script id="sap-ui-bootstrap" 
+                type="text/javascript"
+                src="resources/sap-ui-core.js"
+                data-sap-ui-theme="sap_belize"
+                data-sap-ui-libs="sap.m"
+                data-sap-ui-xx-bindingSyntax="complex"
+                data-sap-ui-resourceroots='{"com.aquachile.mm.traza": "./"}'>
+        </script>
+
+        <script>
+            new sap.ui.core.ComponentContainer({
+                name : "com.aquachile.mm.traza",
+                handleValidation: true,
+            }).placeAt("content");
+        </script>
+    </head>
+
+    <body class="sapUiBody" role="application">
+        <div id="content"></div>
+    </body>
+</html>

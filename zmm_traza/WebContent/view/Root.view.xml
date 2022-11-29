@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mvc:View
+    controllerName="com.aquachile.mm.traza.view.Root"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+    <SplitApp id="idRoot" mode="HideMode">
+        <masterPages>
+            <mvc:XMLView viewName="com.aquachile.mm.traza.view.Master" id="idViewMaster" />
+        </masterPages>
+        <detailPages>
+            <mvc:XMLView viewName="com.aquachile.mm.traza.view.Empty" id="idViewEmpty" /> 
+            <mvc:XMLView viewName="com.aquachile.mm.traza.view.Detail" id="idViewDetail" />  
+        </detailPages>
+    </SplitApp>
+
+</mvc:View>

@@ -1,0 +1,17 @@
+<core:FragmentDefinition
+  xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+  <SelectDialog
+    title="Embalaje"
+    class="sapUiPopupWithPadding"
+    items="{/EmbalajeSet}"
+    search="_handleValueHelpSearchEmbalaje"
+    confirm="_handleValueHelpCloseEmbalaje"
+    cancel="_handleValueHelpCloseEmbalaje">
+    <StandardListItem
+      iconDensityAware="false"
+      iconInset="false"
+      title="{IdEmbalaje}"
+      description="{Name}" />
+  </SelectDialog>
+</core:FragmentDefinition>

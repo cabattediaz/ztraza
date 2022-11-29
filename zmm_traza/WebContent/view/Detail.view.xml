@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mvc:View controllerName="com.aquachile.mm.traza.view.Detail"
+	xmlns:mvc="sap.ui.core.mvc" 
+	xmlns="sap.m" 
+	xmlns:core="sap.ui.core"
+	xmlns:ss="sap.suite.ui.commons"
+	xmlns:l="sap.ui.layout" 
+	xmlns:f="sap.ui.layout.form">
+	<!-- class="sapUiSizeCompact" -->
+	<Page showNavButton="false" title="{i18n>SecondPageTitle}" navButtonPress='.onNavBack'>
+    <ObjectHeader
+		id="oh1"
+		responsive="true"
+		fullScreenOptimized="true"
+		binding="{ path: 'ListaSet>/'}"
+		intro="{Matnr} - {Maktx}"
+		title="Documento de material: {Mblnr}"
+        number="{
+					path: 'Menge',
+					type: 'sap.ui.model.type.Integer',
+					formatOptions:{
+									maxFractionDigits: 0,
+									roundingMode: 'away_from_zero'
+								}
+				}" 
+        numberUnit="{Meins}"
+		backgroundDesign="Translucent"
+		class="sapUiResponsivePadding--header">
+		<ObjectAttribute
+			title="Fecha contabilización"
+			text="{path: 'Budat',formatter: '.formatter.toDate'}"/>
+		<statuses>
+			<ObjectStatus
+				title="Posición Documento"
+				text="{Zeile}"
+				state="Warning"/>
+		</statuses>
+		<ObjectAttribute title="Centro" text="{Werks}" />
+		<ObjectAttribute title="Almacén" text="{Lgort}" />
+		<ObjectAttribute title="Proveedor" text="{Lifnr}" />
+		<statuses>
+			<ObjectStatus
+				title="Lote"
+				text="{Charg}"
+				state="Warning"/>
+		</statuses>
+		<statuses>
+			<ObjectStatus
+				title="Proveedor"
+				text="{Name1}"
+				state="Warning"/>
+		</statuses>
+	</ObjectHeader>
+
+		<!-- Fecha FinValidez -->
+		<content>
+			<Panel expandable="true" expanded="false" headerText="Rango de tolerancias" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<ScrollContainer
+						height="100%"
+						width="100%"
+						horizontal="true"
+						vertical="false"
+						focusable="true">
+	
+						<Table id="lineItemsListRangoTol" items="{nvOutFichaTecnicaSet}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitle" text="Tolerancia" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Item" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Medida" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Medida Tol. Sup." width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Medida Tol. Inf." width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{Matnr}" titleActive="false" visible="true"/>
+										<ObjectNumber number="{Largo}" unit="{LargoUms}" emphasized="true" state="None"/>
+										<ObjectNumber number="{LargoTolSup}" unit="{LargoUms}" emphasized="true" state="None"/>
+										<ObjectNumber number="{LargoTolInf}" unit="{LargoUms}" emphasized="true" state="None"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</ScrollContainer>
+				</content>
+			</Panel>
+			<Panel expandable="true" expanded="false" headerText="Plan de muestreo" width="auto" class="sapUiResponsiveMargin">
+				<content>
+					<Table id="lineItemsPlanMuestreo" width="auto" items="{nvOutPlanMuestreoSet}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+						<headerToolbar>
+							<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+								<content>
+									<Title id="lineItemsTitle2" text="Plan de muestreo" titleStyle="H3" level="H3"/>
+									<ToolbarSpacer width=""/>
+								</content>
+							</OverflowToolbar>
+						</headerToolbar>
+						<columns>
+								<Column width="auto" hAlign="Left" vAlign="Top" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="ID" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Material" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Proveedor" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Pos." width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Descripción" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Usuario" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Lote Min." width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Lote Max." width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Tamaño Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nro. Aceptación" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="Left" vAlign="Top" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nro. Rechazo" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem>
+									<cells>
+										<ObjectIdentifier title="{Id}" titleActive="false" visible="true"/>
+										<ObjectIdentifier title="{Matnr}" titleActive="false" visible="true"/>
+										<ObjectIdentifier title="{Lifnr}" titleActive="false" visible="true"/>
+										<ObjectNumber number="{Pos}" emphasized="true" state="None"/>
+										<ObjectIdentifier title="{Descrip}" titleActive="false" visible="true"/>
+										<ObjectIdentifier title="{Ubname}" titleActive="false" visible="true"/>
+										<ObjectNumber number="{LoteMin}" emphasized="true" state="None"/>
+										<ObjectNumber number="{LoteMax}" emphasized="true" state="None"/>
+										<ObjectNumber number="{TamanoMuestra}" emphasized="true" state="None"/>
+										<ObjectNumber number="{TamanoAceptacion}" emphasized="true" state="None"/>
+										<ObjectNumber number="{TamanoRechazo}" emphasized="true" state="None"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+					</Table>
+				</content>
+			</Panel>		
+			<IconTabBar
+				id="idIconTabBarNoIcons"
+				expanded="{device>/isNoPhone}"
+				class="sapUiResponsiveContentPadding">
+				<items>
+					<IconTabFilter
+						text="FORMULARIO INGRESO">
+
+						<f:Form id="FormIngreso"
+							editable="true">
+							<f:title>
+								<core:Title text="Ingreso datos" />
+							</f:title>
+							<f:layout>
+								<f:ResponsiveGridLayout
+									labelSpanXL="4"
+									labelSpanL="4"
+									labelSpanM="4"
+									labelSpanS="12"
+									adjustLabelSpan="false"
+									emptySpanXL="0"
+									emptySpanL="0"
+									emptySpanM="0"
+									emptySpanS="0"
+									columnsXL="3"
+									columnsL="2"
+									columnsM="2"
+									singleContainerFullSize="false" />
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="Nro. Guía">
+											<f:fields>
+												<Input value="" id="inNroGuia" enabled="false"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Categoria">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB1-1" text="Material"/>
+														<RadioButton id="RB1-2" text="Insumo" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Forma de embalaje">
+											<f:fields>
+												<Input id="idFormaEmbalaje" showValueHelp="true" valueHelpRequest=".handleValueHelpEmbalaje"  placeholder="Forma de embalaje" value="{FormaEmbalaje}">
+													
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Fecha de Elaboración">
+											<f:fields>
+												<DatePicker
+													id="dpFElaboracion"
+													placeholder="Ingrese Fecha de Elaboración ..."
+													change="handleChange">
+
+												</DatePicker>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Fecha de Vencimiento">
+											<f:fields>
+												<DatePicker
+													id="dpFVencimiento"
+													placeholder="Ingrese Fecha de Vencimiento ..."
+													change="handleChange">
+
+												</DatePicker>
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+
+
+
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="Fecha Recepción">
+											<f:fields>
+												<DatePicker id="dpFRecepInsumo"
+															placeholder="Ingrese fecha de Recepción Insumo ..."
+															change="handleChange"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Aditivo / Quimico">
+											<f:fields>
+												<Input enabled="false" value="" placeholder="Insumo" id="inInsumo" >
+							
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Proveedor">
+											<f:fields>
+												<Input id="idInProveedor" enabled="false" placeholder="Proveedor" value="">
+
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Aprobador">
+											<f:fields>
+												<Input id="idInAprobador" enabled="true" placeholder="Aprobador" value="">
+
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										
+									</f:formElements>
+								</f:FormContainer>
+
+
+
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="Fecha de Inspección">
+											<f:fields>
+												<DatePicker id="dpFInspeccion"
+															placeholder="Ingrese Fecha de Inspección ..."
+															change="handleChange"/>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Lote Proveedor">
+											<f:fields>
+												<Input value="" placeholder="Lote Proveedor" id="inLoteProveedor" enabled="false" >
+
+												</Input>
+											</f:fields>
+										</f:FormElement>
+										
+										
+										
+										
+										
+									</f:formElements>
+								</f:FormContainer>
+							</f:formContainers>
+						</f:Form>
+
+						<f:Form id="FormIngreso2"
+							editable="true">
+							
+							<f:layout>
+								<f:ResponsiveGridLayout
+									labelSpanXL="3"
+									labelSpanL="3"
+									labelSpanM="3"
+									labelSpanS="12"
+									adjustLabelSpan="false"
+									emptySpanXL="4"
+									emptySpanL="4"
+									emptySpanM="4"
+									emptySpanS="0"
+									columnsXL="1"
+									columnsL="1"
+									columnsM="1"
+									singleContainerFullSize="false" />
+							</f:layout>
+							<f:formContainers>
+								<f:FormContainer>
+									<f:formElements>
+										<f:FormElement label="Artes (Esquemas/textos/colores)">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB2-1" text="Cumple"/>
+														<RadioButton id="RB2-2" text="No Cumple" />
+														<RadioButton id="RB2-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Presentación del transporte y seguridad de la carga">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB3-1" text="Cumple"/>
+														<RadioButton id="RB3-2" text="No Cumple" />
+														<RadioButton id="RB3-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Bultos sellados inocuos y rotulados correctamente">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB4-1" text="Cumple"/>
+														<RadioButton id="RB4-2" text="No Cumple" />
+														<RadioButton id="RB4-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Ausencia de evidencia de plagas en transporte o embalajes">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB5-1" text="Cumple"/>
+														<RadioButton id="RB5-2" text="No Cumple" />
+														<RadioButton id="RB5-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Identificación y Rotulación (recepción de aditivos y químicos)">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB6-1" text="Cumple"/>
+														<RadioButton id="RB6-2" text="No Cumple" />
+														<RadioButton id="RB6-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Ausencia de derrames o apertura de envases (recepción de aditivos y químicos)">
+											<f:fields>
+												
+												<RadioButtonGroup select=".seleccionaCategoria" columns="3" width="auto" >
+													<buttons>
+														<RadioButton id="RB7-1" text="Cumple"/>
+														<RadioButton id="RB7-2" text="No Cumple" />
+														<RadioButton id="RB7-3" text="No Aplica" />
+													</buttons>
+													
+												</RadioButtonGroup>
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Observaciones">
+											<f:fields>
+												
+												<Input value="" placeholder="Observaciones" id="inObservaciones" />
+
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Acciones correctivas">
+											<f:fields>
+												<Input value="" placeholder="Acciones correctivas" id="inAccionesCorrectivas" />
+											</f:fields>
+										</f:FormElement>
+										<f:FormElement label="Observaciones Modificación" visible="true">
+											<f:fields>
+												<Input value="" placeholder="Observaciones Modificación" id="inObservacionesModifica" />
+											</f:fields>
+										</f:FormElement>
+									</f:formElements>
+								</f:FormContainer>
+
+							</f:formContainers>
+						</f:Form>
+					
+					</IconTabFilter>
+					<IconTabFilter 
+						text="LARGO">
+						<Table id="lineItemsLargo" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaLargo>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitleLargo" text="Largo" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaLargo>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaLargo>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter
+						text="ANCHO">
+						<Table id="lineItemsAncho" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaAncho>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitleAncho" text="Ancho" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaAncho>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaAncho>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter
+						text="ALTO">
+						<Table id="lineItemsAlto" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaAlto>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitleAlto" text="Alto" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaAlto>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaAlto>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter
+						text="ESPESOR">
+						<Table id="lineItemsEspesor" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaEspesor>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitleEspesor" text="Espesor" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaEspesor>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaEspesor>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter
+						text="PESO">
+						<Table id="lineItemsPeso" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaPeso>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitlePeso" text="Peso" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaPeso>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaPeso>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+					<IconTabFilter
+						text="TEMPERATURA">
+						<Table id="lineItemsTemperatura" alternateRowColors="true" width="50%" fixedLayout="true" items="{modeloTablaTemperatura>/}" updateFinished=".onListUpdateFinished" noDataText="{i18n>detailLineItemTableNoDataText}" busyIndicatorDelay="{detailView>/lineItemTableDelay}" growingThreshold="40">
+							<headerToolbar>
+								<!--<Toolbar>
+									<Title
+										id="lineItemsTitle"
+										text="{detailView>/lineItemListTitle}"
+										titleStyle="H3"
+										level="H3"/>
+								</Toolbar>-->
+								<OverflowToolbar width="auto" height="auto" design="Transparent" visible="true" enabled="true">
+									<content>
+										<Title id="lineItemsTitleTemperatura" text="Temperatura" titleStyle="H3" level="H3"/>
+										<ToolbarSpacer width=""/>
+										
+										<!-- <ToggleButton pressed="true" text="Traspasar" iconFirst="true" width="auto" enabled="{= ${Status} === 'X'? false : true}" visible="true"/> -->
+									</content>
+								</OverflowToolbar>
+							</headerToolbar>
+							<columns>
+								<Column width="12em" hAlign="Begin" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Nº Muestra" width="auto" maxLines="1" wrapping="false" textAlign="Begin" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								<Column width="auto" hAlign="End" vAlign="Top" minScreenWidth="Tablet" demandPopin="true" popinDisplay="Inline" mergeDuplicates="false">
+									<header>
+										<Text text="Valor Muestra" width="auto" maxLines="1" wrapping="false" textAlign="End" textDirection="Inherit" visible="true"/>
+									</header>
+									<footer/>
+								</Column>
+								
+								
+								
+							</columns>
+							<items>
+								<ColumnListItem vAlign="Middle">
+									<cells>
+										<ObjectNumber number="{modeloTablaTemperatura>NroMue}" emphasized="true" state="None"/>
+										<Input value="{modeloTablaTemperatura>ValorMue}" type="{Text}" description="{UoM}" fieldWidth="{100%}"/>
+									</cells>
+								</ColumnListItem>
+							</items>
+						</Table>
+					</IconTabFilter>
+				</items>
+			</IconTabBar>
+			<l:Grid id="formularioIngreso" visible="false" defaultSpan="L12 M12 S12" width="auto">
+				<l:content>
+					
+				</l:content>
+			</l:Grid>
+
+			
+			
+
+		</content>
+		<footer>
+			<Toolbar>
+				<Button  type="Accept" text="Imprimir"
+					press="_onPressPrint" enabled="{= ${Status} === 'X'? false : true}" />
+				<ToolbarSpacer /> 
+				<Label text=" {Mblnr} "></Label>
+				<Button  width="25%" type="Accept" text="Guardar"
+					press="_onPressIngresar" enabled="{= ${Status} === 'X'? false : true}" />
+				<Button  width="25%" type="Reject" text="Cancelar"
+					press="_onPressCancelar"  />
+			</Toolbar>
+		</footer>
+	</Page>
+
+</mvc:View>

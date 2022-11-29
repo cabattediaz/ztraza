@@ -1,0 +1,28 @@
+{ "status" : 
+	[
+            {
+                "key": "0",
+                "value": "Ninguna evaluaci\u00f3n de tiempos"           
+            },
+            {
+                "key": "1",
+                "value": "Evaluaci\u00f3n tiempos Real"
+            },
+            {
+                "key": "2",
+                "value": "Evaluaci\u00f3n tiempos CDP"
+            },
+            {
+                "key": "7",
+                "value": "Evaluaci\u00f3n tiempos sin integraci\u00f3n c\u00e1lculo n\u00f3mina"
+            },
+            {
+                "key": "8",
+                "value": "Servicio externo"
+            },
+            {
+                "key": "9",
+                "value": "Evaluaci\u00f3n tiempos Te\u00f3rico"
+            }
+    ]
+ }

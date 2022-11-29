@@ -1,0 +1,17 @@
+<mvc:View
+	controllerName="com.aquachile.mm.traza.view.Empty"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page showNavButton="false" navButtonPress='.goToDetailView'>
+    <Image
+		src="https://images.squarespace-cdn.com/content/v1/5761746db09f9513785ddfc1/1467139189623-Y2IOQOPT5O0WDF971SG2/MARCA-AQUACHILE1.jpg?format=1000w"
+		decorative="true"
+		mode = "sap.m.ImageMode.Background"
+		width="auto" 
+		>
+		<layoutData>
+			<FlexItemData growFactor="1" />
+		</layoutData>
+	</Image>
+    </Page>
+</mvc:View>

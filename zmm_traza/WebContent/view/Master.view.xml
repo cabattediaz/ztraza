@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mvc:View
+    controllerName="com.aquachile.mm.traza.view.Master"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m" xmlns:core="sap.ui.core" >
+
+    <Page title="{i18n>FirstPageTitle}" showFooter="{device>/isNoPhone}">
+        <subHeader>
+            <Bar
+                id="searchBar">
+                <contentMiddle>
+                    <DatePicker
+                        id="dpMaster"
+                        placeholder="Ingrese fecha Inicio"
+                        change="handleSearch"
+                        tooltip="{i18n>masterSearchTooltip}"
+                        width="100%"/>
+                </contentMiddle>
+            </Bar>
+        </subHeader>
+        <List 
+            id="idListEmployees"
+            items="{/ListaSet}"
+            select="handleListSelect"
+            mode="SingleSelectMaster"            
+            >
+            <headerToolbar>
+                <Toolbar>
+                    <content>
+                        <Title text="Muestreos" level="H2" />
+                        <ToolbarSpacer />
+                        <Select
+                            id="selectMuestreos"
+                            selectedKey="1"
+                            change="handleSelectChange">
+                            <items>
+                                <core:Item key="1" text="Por realizar" />
+                                <core:Item key="2" text="Realizados" />
+                                <core:Item key="3" text="Todos" />
+                            </items>
+                        </Select>
+                    </content>
+                </Toolbar>
+            </headerToolbar>
+            <ObjectListItem 
+					id="MAIN_LIST_ITEM" 
+					title="{Mblnr}"
+                    number="{Zeile}"
+                    numberUnit="{Mjahr}">
+                    <attributes>
+                        <ObjectAttribute text="{Xblnr}"/>
+						<ObjectAttribute id="ListAttributeItemDescription" text="{Matnr}" />
+                        <ObjectAttribute text="{Maktx}" />				
+					</attributes>
+					
+			</ObjectListItem>
+        </List>
+    </Page>
+
+</mvc:View>
